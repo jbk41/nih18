@@ -31,11 +31,20 @@ def makedir(directory): # makes directory
 
 if __name__ == '__main__':
     task = sys.argv[1]
+    assert task in ['reset', 'train_test_split', 'np_to_image'], "first arg must be either 'np_to_image', 'train_test_split', or 'reset'"
+   
     if task == 'np_to_image':
         image_file = sys.argv[2]
         mask_file = sys.argv[3]
-    
-    assert task in ['reset', 'train_test_split', 'np_to_image'], "first arg must be either 'np_to_image', 'train_test_split', or 'reset'"
+
+    if not os.path.isfile(image_file):
+        print('{image_file} does not exist'.format(image_file=image_file))
+        sys.exit()
+    if not os.path.isfile(mask_file):
+        print('{mask_file} does not exist'.format(mask_file=mask_file))
+        sys.exit()
+
+
     image_dir = "images" #parent dir to hold all train/test images
     makedir(image_dir)
 
