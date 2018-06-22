@@ -27,23 +27,22 @@ def makedir(directory): # makes directory
     if not os.path.exists(directory):
         os.makedirs(directory)
         #print('Made directory ' + directory)
-    else:
-        #print(directory + ' already exists, using existing directory')
 
 
 if __name__ == '__main__':
     task = sys.argv[1]
-    image_file = sys.argv[2]
-    mask_file = sys.argv[3]
+    if task == 'np_to_image':
+        image_file = sys.argv[2]
+        mask_file = sys.argv[3]
     
     assert task in ['reset', 'train_test_split', 'np_to_image'], "first arg must be either 'np_to_image', 'train_test_split', or 'reset'"
-    image_dir = "images" #parent dir to hold all train/val/test image
+    image_dir = "images" #parent dir to hold all train/test images
     makedir(image_dir)
 
     train_directory = os.path.join(image_dir, 'training_data')
     test_directory = os.path.join(image_dir, 'testing_data')
 
-    if task == 'reset':
+    if task == 'reset': # if data is split into train and test data, move all images back to image_dir
         if os.path.exists(train_directory):
             for filename in os.listdir(train_directory):
                 shutil.move(os.path.join(train_directory, filename), image_dir)
@@ -81,7 +80,8 @@ if __name__ == '__main__':
             destination = os.path.join(test_directory, list_of_directories[i])
             shutil.move(os.path.join(image_dir, list_of_directories[i]), destination)
 
-        print('Done. Completed a train/test split of the data in ' + image_dir + '. There were ' + num_train + ' training images and ' + num_test + ' testing images.')
+        # print('Done. Completed a train/test split of the data in ' + image_dir + '. There were ' + num_train + ' training images and ' + num_test + ' testing images.')
+        print('Done. Completed a train/test split of the data in {image_dir}. There were {num_train} training images and {num_test} testing images.'.format(image_dir=image_dir, num_train=str(num_train), num_test=str(num_test)))
 
     if task == 'np_to_image':
         image_stack_array = np.load(image_file) # loads .npy file that contains images
@@ -114,6 +114,6 @@ if __name__ == '__main__':
                 instance_array = masks[index]
                 scipy.misc.imsave(os.path.join(mask_instance_dir, instance_file_name),instance_array)
                 count += 1
-        print('Done. Converted numpy array to dataset.)
+        print('Done. Converted numpy array to dataset.')
 
 
