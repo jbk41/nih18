@@ -9,7 +9,7 @@ import random
 import shutil
 
 TRAIN = .7 # 70% training
-VAL = .3 #30% validation
+# TEST = 1-TRAIN
 
 # generates mask dictionary, each key with a single mask instance as a value
 def generate_masks(mask_array):
