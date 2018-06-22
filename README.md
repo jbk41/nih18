@@ -15,12 +15,16 @@ To convert .npy images and masks into image datasets, run
 python setup_data.py np_to_image <path_to_image_numpy_file> <path_to_mask_numpy_file>
 `
 
+This will create an `images` directory in your current directory and make a folder for each image/mask pair. In each subdirectory, there will be an image folder which will hold the `image` and a `masks` folder which will contain an image for each individual instance found in the image. 
+
 To complete the train/test split, run 
 
 `
 python setup_data.py train_test_split
 `
 
+The default split is 70/30 but you can change line 11 in `setup_data.py`.
+  
 To reset or merge all training and testing data to the image directory, run
 
 `
